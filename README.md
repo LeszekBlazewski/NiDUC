@@ -23,10 +23,6 @@ To się wydaje całkiem w porządku, polukrowałem trochę przez prezentacje i z
 
 Jeśli dobrze to rozumiem to musimy sobie wymyślić jakąś taką mini infrastrukturę dla firmy np. host + server + kilka routerów + PC + jakaś replikacja danych powymyślać parametry poobliczać wszystkie te współczynniki i poczarówać coś z parametrami tak żeby nie było za drogo i jednocześnie wydajnie.
 
-## Opis
-
-Tutaj to wszystkie tematy są praktycznie identyczne więc ARQ + FEC powinno wejść w miarę gładko. PSK raczej też trzeba się pobawić wszystkimi możliwymi parametrami fali i na tej podstawie zrobić wykresiki i obliczyć ilości skutecznie przesłanych bitów.
-
 ## Transmisja w systemie  ARQ (Automatic Repeat Request)
 
 ### Key points
@@ -35,40 +31,35 @@ Tutaj to wszystkie tematy są praktycznie identyczne więc ARQ + FEC powinno wej
 - ilośc bitów danych transmitowanych w jednostce czasu
 - długość pakietu
 
-## Transmisja w systemie FEC (Forward Error Correctioin)
+A tutaj wykładzik o ARQ [here](http://www.zsk.ict.pwr.wroc.pl/zsk/repository/dydaktyka/ndsc/wyklady/niezawodnosc_w11_12.pdf).
 
-### Key points
+### Opis
 
-- algorytm głosujący
-- ilość dodawanych bitów
-- inny sposób dodawania bitów niż w prezentacji
+Głównym celem projektu jest sprawdzenie metody stosowanej do korekcji oraz walidacji przesyłanych danych podczas przesyłu informacji w kanale telekomunikacyjnym - ARQ. Program pozwala symulować przesył danych w kanale, modyfikować konkretne wartości dotyczące przesyłanych sygnałów oraz pozwala na wyznaczenie statystyk dotyczących konkretnych parametrów. Na podstawie otrzymanych danych wyznaczony zostanie najbardziej optymalny oraz skuteczny protokół pozwalający osiągnąć największą skuteczność.
 
-A tutaj wykładzik o ARQ + FEC [here](http://www.zsk.ict.pwr.wroc.pl/zsk/repository/dydaktyka/ndsc/wyklady/niezawodnosc_w11_12.pdf).
+Protokoły ARQ które zostaną zastosowane :
 
-## Przesyłanie informacji z wykorzystaniem modulacji PSK (Phase-Shift Keying)
+- Go back N ARQ
+- Stop and Wait ARQ
+- *Selective protocol/Selective Reject ARQ
 
-### Key points
+Różne sposoby kontroli błędów :
 
-- ilość skutecznie przesłanych bitów w trakcie jednego okresu fali nośnej
-- efektywne kodowanie informacji
-- analiza wszystkich parametrów fali nośnej
+- Pairity bit
+- two from five
+- CRC 16 (kod cykliczny)
+- *Hamming code implementation
 
-Referencje apropo PSK z prezentacji jarnickiego [here](http://www.zsk.ict.pwr.wroc.pl/zsk/repository/dydaktyka/ndsc/wyklady/transmisja_cyfrowa_wyklad.pdf).
+Przykładowe modele kanału telekomunikacyjnego:
 
-## Model Markowa –analiza wpływu napraw prewencyjnych na niezawodność (preventivemaintenanceplanning) –wg Wykładu 8
+- Cyclic error channel
+- Binary symmetric Channel
 
-To jest też ciekawy temat, bo można połączyć prezentację Maciejewskiego z prezentacjami Wody i jest tam strasznie dużo informacji o tym. Tylko zastanawiam się czy to ma być coś analogicznego do tego co pokazywał Maciejewski na [wykładzie](http://www.zsk.ict.pwr.wroc.pl/zsk/repository/dydaktyka/ndsc/wyklady/niezawodnosc_w6.pdf). Jeśli tak to jest duża część już zrobiona na prezentacjach + jest podane co trzeba pokolei liczyć.
+Badaniu zostaną poddane takie paramtery jak:
 
-Problem jest tylko taki, że jest napisane że to się odnosi do wykładu 8 a tam to niby jest ale tak nie do końca więc trzeba by się dopytać o co dokładnie chodzi ale nie wydaje się bardzo trudne.
+- skuteczność każdego z protokołów
+- długość oraz ilość przesyłanych pakietów
+- model kanału telekomunikacyjnego
+- prędkość przesyłu danych
 
-Moim zdaniem tutaj trzeba jechać z prezentacji Maciejewskiego i liczyć to co ona tam powypisywał.
-
-### Key points
-
-- Procedura analizy niezawodności systemu opisanego modelem Markowa
-- intensywności przejść pomiędzy stanami
-- macierz intensywności
-- wektor prawdopodobieństw
-- współczynnik gotowości systemu
-
-[Tutaj](http://www.zsk.ict.pwr.wroc.pl/zsk/repository/dydaktyka/ndsc/wyklady/niezawodnosc_w6.pdf) to jest wszystko super po kolei opisane co i jak i czemu. Wygląda to całkiem przyjemnie na tej prezentacji.
+Projekt zostanie zrealizwany w środkowsku Matlab przy pomocy wbudowanych bibliotek oraz własnyc implementacji.
