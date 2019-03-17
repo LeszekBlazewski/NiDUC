@@ -7,9 +7,9 @@
     error - error which indicates whether any bit was corrupted during
     transmission ( in frame we are currently running one frame)
 %}
-function [decodedData, error] = crc16Decode(encodedData)
-encodedData = encodedData.';    %transpose the given  vector
+function [decodedData, error] = crc16Decoding(encodedpacket)
+encodedpacket = encodedpacket.';    %transpose the given  vector
 detect = comm.CRCDetector([16 15 2 0],'ChecksumsPerFrame',1);   % create detector for CRC16
-[decodedData, error] = step(detect,encodedData); % decode the given parameter
+[decodedData, error] = step(detect,encodedpacket); % decode the given parameter
 decodedData = decodedData.';
 end

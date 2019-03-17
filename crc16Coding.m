@@ -1,13 +1,18 @@
 %{
     Function codes the given data with crc16 protocol.
     Parameters:
-    data - vertical vector which contains data to encode
+    data - matrix of zeroes and ones to encode
     returns:
-    vertical vector which contains encoded data.
+    matrix with encoded data, where each row contains coded data with it's
+    reminder
 %}
 function [codedData] = crc16Coding(data)
-msg = data.';   %transpose the matrix because generator requires it
 gen = comm.CRCGenerator([16 15 2 0],'ChecksumsPerFrame',1); % generator of checksum
-codedData = step(gen,msg);  % uses generator to encode provided data
-codedData = codedData.';    % transpose back to vertical
+[n,m] = size(data); % get number of rows (n) and number of columns (m)
+codedData = zeros(n,m+16);  % empty matrix for storing coded data, when using crc 16 protocol there are additional 16 columns added.
+
+for x=1:m
+    msg = data(x,:).'; % get row and transpose it because generator requires it
+    codedData(x,:) = step(gen,msg).';  % uses generator to encode provided data and transpose it back to fit matrix
+end
 end

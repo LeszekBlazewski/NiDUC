@@ -7,8 +7,8 @@ data - matrix containg 0 and 1
 returns:
 true if error occured or false if not.
  %}
-function [errorOccured]=checkForErrorErasure(data)
-    [m,n]=size(data);
+function [errorOccured]=erasureCheckForError(data)
+    [~,n]=size(data);
     errorOccured=false;
     for i=1:n
       if data(i)==-1
