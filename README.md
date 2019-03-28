@@ -1,5 +1,8 @@
 # NiDUC
 
+# TODO
+Kanał z ciaglymi zakłóceniami i losowymi peakami, wykrywajacy <0,5 jako 0 i >=0,5 jako 1.
+
 ## Transmisja w systemie  ARQ (Automatic Repeat Request)
 
 ### Key points
