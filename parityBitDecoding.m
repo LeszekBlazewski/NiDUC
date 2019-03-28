@@ -7,7 +7,7 @@ returns:
 IsReceived - test whether the bit was correctly received
 uncodedData - data without the pairity bit
 %}
-function [IsReceived, uncodedData] = parityBitDecoding( receivedPacket )
+function [uncodedData,IsReceived] = parityBitDecoding( receivedPacket )
 parityBit=receivedPacket(end);
 receivedData=receivedPacket(1:end-1);
 parityTest = mod(sum(receivedData),2);

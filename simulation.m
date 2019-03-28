@@ -1,6 +1,6 @@
 data = generateData(20,10); % 20 packets, each contains 10 bits
 
-crcDecodedData = zeros(20,10);
+	
 twoFromFiveDecodedData = zeros (20,10);
 pairityBitDecodedData = zeros(20,10);
 

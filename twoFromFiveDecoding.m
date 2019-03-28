@@ -7,7 +7,7 @@ uncodedData - vector of size n/5+1 with uncoded data. First bit in decoded vecto
 informs whether coded data was corrupted durning transmission.
 isReceived - specifies whether packet given in parameter was corrupted
 %}
-function [IsReceived, uncodedData] = twoFromFiveDecoding( receivedPacket )
+function [uncodedData,IsReceived] = twoFromFiveDecoding( receivedPacket )
 [~, n] = size(receivedPacket);
 numberOfBits= n/5;
 uncodedData = zeros(1, numberOfBits);
