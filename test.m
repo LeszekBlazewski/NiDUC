@@ -1,3 +1,4 @@
+rng('shuffle');
 data = generateData(100,800);
 probError = 0.05;
 canalName ='BSC';
