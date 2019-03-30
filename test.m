@@ -3,7 +3,7 @@ probError = 0.05;
 canalName ='BSC';
 codingProtocol = 'pB';
 
-[operationCounter, decodedData] = ArqStopAndWait(data,probError,canalName,codingProtocol)
+[operationCounter, decodedData] = ArqStopAndWait(data,probError,canalName,codingProtocol);
 
 [m,n] = size(decodedData);
 
@@ -21,4 +21,4 @@ for i=1:m
     end
 end
 
-errorRate = errorCounter/(m*n)
+errorRate = errorCounter/(m*n);
