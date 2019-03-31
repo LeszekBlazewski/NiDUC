@@ -22,7 +22,7 @@ end
 end
 
 function [ error ] = generateError( peakErrorProbability )
-error = 0.4 * randn();
+error = 0.24 * randn();
 if (peakErrorProbability >= rand())
     if (0.5 < rand)
         error = error + 0.5 + rand();
