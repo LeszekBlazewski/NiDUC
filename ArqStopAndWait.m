@@ -38,18 +38,18 @@ while (i <= m)
     
     switch codingProtocol
         case '2f5'
-            [decodedpacket,error] = twoFromFiveDecoding(dataAfterTransmission);
+            [decodedpacket,correct] = twoFromFiveDecoding(dataAfterTransmission);
         case 'crc'
             [decodedpacket,error] = crc16Decoding(dataAfterTransmission);
-            error = ~error;
+            correct = ~error;
         case 'pB'
-            [decodedpacket,error] = parityBitDecoding(dataAfterTransmission);     
+            [decodedpacket,correct] = parityBitDecoding(dataAfterTransmission);     
     end
      
     decodedData(i,:) = decodedpacket;
     
     % check if error occured
-    if (~error)
+    if (correct)
         i=i+1;
     end
     
