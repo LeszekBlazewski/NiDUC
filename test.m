@@ -22,4 +22,5 @@ for i=1:m
     end
 end
 
-errorRate = errorCounter/(m*n);
+errorRate = double(errorCounter) / double(m*n);
+transmissionLengthRate = double(operationCounter) / double(m);
