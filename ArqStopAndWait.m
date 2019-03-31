@@ -8,7 +8,9 @@ operationCounter = 0;
 
 decodedData = zeros(m,n);
 
-for i=1:m
+i = 1;
+
+while (i <= m)
     
     % encode data
     
@@ -27,8 +29,8 @@ for i=1:m
         case 'BSC'
             dataAfterTransmission = channelBSC(encodedData,probabilityOfError);
             
-        %case 'REC'
-            %%%%% ERROR CHANEL WITH PEAK TO IMPLEMENT
+        case 'REC'
+            dataAfterTransmission = channelREC(encodedData,probabilityOfError);
             
     end       
     
@@ -47,8 +49,8 @@ for i=1:m
     decodedData(i,:) = decodedpacket;
     
     % check if error occured
-    if error
-        i=i-1;
+    if (~error)
+        i=i+1;
     end
     
     operationCounter = operationCounter + 1;
