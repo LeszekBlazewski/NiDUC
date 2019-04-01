@@ -1,7 +1,14 @@
 # NiDUC
 
 # TODO
-Ładne GUI
+
+- [x] Pretty GUI !
+- [ ] Check if 2f5 works good
+- [ ] Check if statistics are generated correctly
+- [ ] clear code and check references to functions
+- [ ] remove polish words from code !
+- [ ] Adjust this readme to show what we have done so far ! 
+- [x] Stay awesome :smile: ! 
 
 ## Transmisja w systemie  ARQ (Automatic Repeat Request)
 
