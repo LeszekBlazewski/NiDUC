@@ -1,4 +1,4 @@
-function [errorRate,transmissionLengthRate] = getTransferStatistics(decodedData,data,operationCounter,transferRate)
+function [errorRate,transmissionLengthRate] = getTransferStatistics(decodedData,data,operationCounter)
 
 [m,n] = size(decodedData);
 
@@ -14,7 +14,7 @@ for i=1:m
     end
 end
 
-errorRate = double(errorCounter) / double(transferRate); % not sure if here should be m*n or transferRate from GUI ? DEX HALP PLEASE ! 
+errorRate = double(errorCounter) / double(m*n);
 transmissionLengthRate = double(operationCounter) / double(m);
 
 end

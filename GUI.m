@@ -22,7 +22,7 @@ function varargout = GUI(varargin)
 
 % Edit the above text to modify the response to help GUI
 
-% Last Modified by GUIDE v2.5 01-Apr-2019 04:00:12
+% Last Modified by GUIDE v2.5 01-Apr-2019 12:40:40
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -54,10 +54,17 @@ function GUI_OpeningFcn(hObject, eventdata, handles, varargin)
 
 % Choose default command line output for GUI
 handles.output = hObject;
-set(handles.sliderErrorRate, 'SliderStep', [0.1, 0.1]);
+set(handles.sliderErrorRate, 'SliderStep', [0.005, 0.005]);
 
 currentValue = get(handles.sliderErrorRate,'value');
-set(handles.textErrorRate,'string',num2str(currentValue));
+set(handles.editErrorRate,'string',num2str(currentValue));
+
+% set random engine
+rng('shuffle');
+
+% add listener to slider
+
+addlistener(handles.sliderErrorRate ,'Value', 'PostSet', @ContSliderDragCB);
 
 % Update handles structure
 guidata(hObject, handles);
@@ -131,9 +138,9 @@ function sliderErrorRate_Callback(hObject, eventdata, handles)
 
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
+
 currentValue = get(hObject,'value');
-set(handles.textErrorRate,'string',num2str(currentValue));
-guidata(hObject,handles);
+set(handles.editErrorRate,'string',num2str(currentValue));
 
 
 
@@ -200,11 +207,8 @@ function pushbuttonRun_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-% set random engine
-rng('shuffle');
-
 % get values from view
-[codingProtocol,channelType,packetSize,packetCount,errorProbability,transferRate,filename] = getValues(handles);
+[codingProtocol,channelType,packetSize,packetCount,errorProbability,filename] = getValues(handles);
 
 
 % generate data
@@ -216,7 +220,7 @@ data = generateData(packetCount,packetSize);
 
 % get transfer statistics
 
-[errorRate,transmissionLengthRate] = getTransferStatistics(decodedData,data,operationCounter,transferRate);
+[errorRate,transmissionLengthRate] = getTransferStatistics(decodedData,data,operationCounter);
 
 
 % output to console (csv format) !
@@ -255,11 +259,49 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
 end
 
 % get all values from GUI
-function [codingProtocol,channelType,packetSize,packetCount,errorProbability,transferRate,filename] = getValues(handles)
+function [codingProtocol,channelType,packetSize,packetCount,errorProbability,filename] = getValues(handles)
 codingProtocol = get(get(handles.uibuttongroupProtocol,'SelectedObject'), 'Tag');
 channelType = get(get(handles.uibuttongroupChannel,'SelectedObject'), 'Tag');
 packetSize = str2double(get(handles.editPacketSize, 'String'));
 packetCount = str2double(get(handles.editPackageCount, 'String'));
 errorProbability = get(handles.sliderErrorRate,'value');
-transferRate = str2double(get(handles.editTransferRate, 'String'));
 filename = get(handles.editFileName, 'String');
+
+
+% --- Executes during object creation, after setting all properties.
+function textErrorRate_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to textErrorRate (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+function ContSliderDragCB(hObject, eventdata)
+handles = guidata(eventdata.AffectedObject);
+Value   = get(eventdata.AffectedObject, 'Value');
+set(handles.editErrorRate,'String', num2str(Value));
+
+
+
+function editErrorRate_Callback(hObject, eventdata, handles)
+% hObject    handle to editErrorRate (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of editErrorRate as text
+%        str2double(get(hObject,'String')) returns contents of editErrorRate as a double
+value = str2double(get(hObject,'String'));
+set(handles.sliderErrorRate, 'value',value);
+
+
+
+
+% --- Executes during object creation, after setting all properties.
+function editErrorRate_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to editErrorRate (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
