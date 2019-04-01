@@ -15,11 +15,11 @@ while (i <= m)
     % encode data
     
     switch codingProtocol
-        case '2f5'
+        case 'P2F5'
             encodedData = twoFromFiveCoding(data(i,:));
-        case 'crc'
+        case 'CRC'
             encodedData = crc16Coding(data(i,:));
-        case 'pB'
+        case 'PB'
             encodedData = parityBitCoding(data(i,:));     
     end
     
@@ -37,12 +37,12 @@ while (i <= m)
     % decode the data
     
     switch codingProtocol
-        case '2f5'
+        case 'P2F5'
             [decodedpacket,correct] = twoFromFiveDecoding(dataAfterTransmission);
-        case 'crc'
+        case 'CRC'
             [decodedpacket,error] = crc16Decoding(dataAfterTransmission);
             correct = ~error;
-        case 'pB'
+        case 'PB'
             [decodedpacket,correct] = parityBitDecoding(dataAfterTransmission);     
     end
      

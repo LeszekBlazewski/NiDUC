@@ -16,8 +16,8 @@ codedOne = [1 0 1 0 0];
 codedZero = [1 1 0 0 0];
 
 for i=1:numberOfBits
-    przedzial = [(5*(i-1))+1 (5*i)];
-    codedBit = receivedPacket(1,przedzial(1):przedzial(2));
+    range = [(5*(i-1))+1 (5*i)];
+    codedBit = receivedPacket(1,range(1):range(2));
     if isequal(codedBit, codedZero)
        uncodedData(i) = 0; 
     elseif isequal(codedBit, codedOne)

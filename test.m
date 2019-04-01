@@ -2,15 +2,13 @@ rng('shuffle');
 data = generateData(100,800);
 probError = 0.05;
 canalName ='BSC';
-codingProtocol = 'pB';
+codingProtocol = 'PB';
 
 [operationCounter, decodedData] = ArqStopAndWait(data,probError,canalName,codingProtocol);
 
 [m,n] = size(decodedData);
 
 errorCounter = 0;
-
-r = rand(100,800);
 
 for i=1:m
     for j=1:n
@@ -21,6 +19,6 @@ for i=1:m
         end
     end
 end
-
+ 
 errorRate = double(errorCounter) / double(m*n);
 transmissionLengthRate = double(operationCounter) / double(m);
