@@ -231,13 +231,13 @@ data = generateData(packetCount,packetSize);
 
 % output to console (csv format) !
 
-format = '%s;%s;%.3f;%d;%d;%d;%.1f;\n';
+format = '%s;%s;%.3f;%d;%d;%.3d;%.1f;\n';
 
 oldmsgs = cellstr(get(handles.editLogs,'String'));
 set(handles.editLogs,'String',[{sprintf(format,codingProtocol,channelType,errorProbability,packetCount,packetSize,errorCounter,transmissionLengthRate)};oldmsgs]);
 
 % output to file (csv format, append) !
-timeStamp = datestr(now, '_dd_mm_yyyyTHH_MM_SS_AM');
+timeStamp = datestr(now, '_dd_mm_yyyyHH_MM_SS_AM');
 fileID = fopen(strcat(filename,timeStamp,'.csv'),'a');
 fprintf(fileID,format,codingProtocol,channelType,errorProbability,packetCount,packetSize,errorCounter,transmissionLengthRate);
 fclose(fileID);
