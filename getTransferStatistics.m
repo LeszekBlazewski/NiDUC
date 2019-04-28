@@ -1,4 +1,4 @@
-function [errorRate,transmissionLengthRate] = getTransferStatistics(decodedData,data,operationCounter)
+function [errorCounter,transmissionLengthRate] = getTransferStatistics(decodedData,data,operationCounter)
 
 [m,n] = size(decodedData);
 
@@ -14,7 +14,6 @@ for i=1:m
     end
 end
 
-errorRate = double(errorCounter) / double(m*n);
 transmissionLengthRate = double(operationCounter) / double(m);
 
 end
