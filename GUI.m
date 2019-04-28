@@ -231,7 +231,7 @@ data = generateData(packetCount,packetSize);
 
 % output to console (csv format) !
 
-format = '%s;%s;%.3f;%d;%d;%.3d;%.1f;\n';
+format = '%s;%s;%.3f;%d;%d;%d;%.1f;\n';
 
 oldmsgs = cellstr(get(handles.editLogs,'String'));
 set(handles.editLogs,'String',[{sprintf(format,codingProtocol,channelType,errorProbability,packetCount,packetSize,errorCounter,transmissionLengthRate)};oldmsgs]);
