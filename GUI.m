@@ -22,7 +22,7 @@ function varargout = GUI(varargin)
 
 % Edit the above text to modify the response to help GUI
 
-% Last Modified by GUIDE v2.5 28-Apr-2019 13:03:10
+% Last Modified by GUIDE v2.5 03-May-2019 16:26:12
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -237,7 +237,9 @@ oldmsgs = cellstr(get(handles.editLogs,'String'));
 set(handles.editLogs,'String',[{sprintf(format,codingProtocol,channelType,errorProbability,packetCount,packetSize,errorCounter,transmissionLengthRate)};oldmsgs]);
 
 % output to file (csv format, append) !
+if x == 1
 timeStamp = datestr(now, '_dd_mm_yyyyTHH_MM_SS_AM');
+end
 fileID = fopen(strcat(filename,timeStamp,'.csv'),'a');
 fprintf(fileID,format,codingProtocol,channelType,errorProbability,packetCount,packetSize,errorCounter,transmissionLengthRate);
 fclose(fileID);
@@ -292,6 +294,9 @@ function ContTestQuantitySliderDragCB(hObject, eventdata)
 handles = guidata(eventdata.AffectedObject);
 Value   = get(eventdata.AffectedObject, 'Value');
 set(handles.editTestQuantity,'String', num2str(Value));
+
+function [] = generateHistogram()
+
 
 
 
@@ -364,4 +369,17 @@ function sliderTestQuantity_CreateFcn(hObject, eventdata, handles)
 % Hint: slider controls usually have a light gray background.
 if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor',[.9 .9 .9]);
+end
+
+
+% --- Executes on button press in pushbuttonGenerateHistogram.
+function pushbuttonGenerateHistogram_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbuttonGenerateHistogram (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+[file,path] = uigetfile('*.csv');
+if isequal(file,0)
+
+else
+      generateHistogram();
 end
