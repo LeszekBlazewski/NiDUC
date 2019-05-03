@@ -232,6 +232,7 @@ data = generateData(packetCount,packetSize);
 % output to console (csv format) !
 
 format = '%s;%s;%.3f;%d;%d;%d;%.1f;\n';
+errorFormat ='%d, ';
 
 oldmsgs = cellstr(get(handles.editLogs,'String'));
 set(handles.editLogs,'String',[{sprintf(format,codingProtocol,channelType,errorProbability,packetCount,packetSize,errorCounter,transmissionLengthRate)};oldmsgs]);
@@ -242,6 +243,9 @@ timeStamp = datestr(now, '_dd_mm_yyyyTHH_MM_SS_AM');
 end
 fileID = fopen(strcat(filename,timeStamp,'.csv'),'a');
 fprintf(fileID,format,codingProtocol,channelType,errorProbability,packetCount,packetSize,errorCounter,transmissionLengthRate);
+fclose(fileID);
+fileID = fopen(strcat(filename,timeStamp,'-errorArray.csv'),'a');
+fprintf(fileID,errorFormat, errorCounter);
 fclose(fileID);
 end
 close(progressInfo)
@@ -295,7 +299,6 @@ handles = guidata(eventdata.AffectedObject);
 Value   = get(eventdata.AffectedObject, 'Value');
 set(handles.editTestQuantity,'String', num2str(Value));
 
-function [] = generateHistogram()
 
 
 
@@ -381,5 +384,7 @@ function pushbuttonGenerateHistogram_Callback(hObject, eventdata, handles)
 if isequal(file,0)
 
 else
-      generateHistogram();
+    data = csvread(file);
+    figure();
+    histObject = histogram(data);
 end
