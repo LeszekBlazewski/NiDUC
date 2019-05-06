@@ -386,5 +386,7 @@ if isequal(file,0)
 else
     data = csvread(file);
     figure();
-    histObject = histogram(data);
+    histfit(data, 200);
+    h = fitdist(data.', 'Normal');
+    disp(h);
 end
