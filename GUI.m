@@ -42,8 +42,7 @@ else
     gui_mainfcn(gui_State, varargin{:});
 end
 % End initialization code - DO NOT EDIT
-
-
+global currentHistFileName;
 % --- Executes just before GUI is made visible.
 function GUI_OpeningFcn(hObject, eventdata, handles, varargin)
 % This function has no output args, see OutputFcn.
@@ -51,7 +50,6 @@ function GUI_OpeningFcn(hObject, eventdata, handles, varargin)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 % varargin   command line arguments to GUI (see VARARGIN)
-
 % Choose default command line output for GUI
 handles.output = hObject;
 set(handles.sliderErrorRate, 'SliderStep', [0.005, 0.005]);
@@ -84,8 +82,6 @@ function varargout = GUI_OutputFcn(hObject, eventdata, handles)
 
 % Get default command line output from handles structure
 varargout{1} = handles.output;
-
-
 
 function editPacketSize_Callback(hObject, eventdata, handles)
 % hObject    handle to editPacketSize (see GCBO)
@@ -211,7 +207,7 @@ function pushbuttonRun_Callback(hObject, eventdata, handles)
 
 % get values from view
 [codingProtocol,channelType,packetSize,packetCount,errorProbability,testQuantity,filename] = getValues(handles);
-
+global currentHistFileName;
 % init waitbar
 progressInfo = waitbar(0,'Processing');
 for x = 1:testQuantity
@@ -244,11 +240,13 @@ end
 fileID = fopen(strcat(filename,timeStamp,'.csv'),'a');
 fprintf(fileID,format,codingProtocol,channelType,errorProbability,packetCount,packetSize,errorCounter,transmissionLengthRate);
 fclose(fileID);
-fileID = fopen(strcat(filename,timeStamp,'-errorArray.csv'),'a');
+fileID = fopen(strcat(filename,timeStamp,'-results.csv'),'a');
+currentHistFileName  = fopen(fileID);
 fprintf(fileID,errorFormat, errorCounter);
 fclose(fileID);
 end
-close(progressInfo)
+close(progressInfo);
+generateHist(currentHistFileName);
 
 
 function editLogs_Callback(hObject, eventdata, handles)
@@ -282,7 +280,21 @@ errorProbability = get(handles.sliderErrorRate,'value');
 testQuantity = get(handles.sliderTestQuantity, 'value');
 filename = get(handles.editFileName, 'String');
 
+function generateHist(file)
+% file - file name
+if isequal(file,0)
 
+else
+    data = csvread(file);
+    figure();
+    histfit(data, 200);
+    h = fitdist(data.', 'Normal');
+    disp(h);
+    resultFormat ='\n %f, %f';
+    fileID = fopen(file,'a');
+    fprintf(fileID,resultFormat, h.mu, h.sigma);
+    fclose(fileID);
+end
 % --- Executes during object creation, after setting all properties.
 function textErrorRate_CreateFcn(hObject, eventdata, handles)
 % hObject    handle to textErrorRate (see GCBO)
@@ -381,12 +393,4 @@ function pushbuttonGenerateHistogram_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 [file,path] = uigetfile('*.csv');
-if isequal(file,0)
-
-else
-    data = csvread(file);
-    figure();
-    histfit(data, 200);
-    h = fitdist(data.', 'Normal');
-    disp(h);
-end
+generateHist(file);
