@@ -228,7 +228,7 @@ data = generateData(packetCount,packetSize);
 % output to console (csv format) !
 
 format = '%s;%s;%.3f;%d;%d;%d;%.1f;\n';
-errorFormat ='%d, ';
+errorFormat =', %d';
 
 oldmsgs = cellstr(get(handles.editLogs,'String'));
 set(handles.editLogs,'String',[{sprintf(format,codingProtocol,channelType,errorProbability,packetCount,packetSize,errorCounter,transmissionLengthRate)};oldmsgs]);
@@ -246,7 +246,11 @@ fprintf(fileID,format,codingProtocol,channelType,errorProbability,packetCount,pa
 fclose(fileID);
 fileID = fopen(strcat(filename,timeStamp,'-results.csv'),'a');
 currentHistFileName  = fopen(fileID);
-fprintf(fileID,errorFormat, errorCounter);
+if x == 1
+fprintf(fileID, '%d',errorCounter);
+else
+fprintf(fileID, errorFormat, errorCounter);
+end
 fclose(fileID);
 end
 close(progressInfo);
@@ -291,9 +295,14 @@ if isequal(file,0)
 else
     data = csvread(file);
     figure();
-    histfit(data, 200);
+    hgr = histfit(data);
     h = fitdist(data.', 'Normal');
+    disp(hgr(2));
+    hgr(2).YData = hgr(2).YData / sum(hgr(1).YData);
+    hgr(1).YData = hgr(1).YData / sum(hgr(1).YData);
     disp(h);
+    xlabel('number of bad packets');
+    ylabel('probability');
     qts = quantile(data, [0 0.25 0.5 0.75 1]);
     resultFormat ='\n %f, %f, %f, %f, %f, %f';
     fileID = fopen(file,'a');
