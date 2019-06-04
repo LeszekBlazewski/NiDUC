@@ -4,3 +4,5 @@
 *.txt
 # matlab exe
 *.mlapp
+# results in .csv format
+*.csv

@@ -236,6 +236,10 @@ set(handles.editLogs,'String',[{sprintf(format,codingProtocol,channelType,errorP
 % output to file (csv format, append) !
 if x == 1
 timeStamp = datestr(now, '_dd_mm_yyyyTHH_MM_SS_AM');
+% labels
+fileID = fopen(strcat(filename,timeStamp,'.csv'),'a');
+fprintf(fileID,'codingProtocol;channelType;errorProbability;packetCount;packetSize;errorCounter;transmissionLengthRate;\n');
+fclose(fileID);
 end
 fileID = fopen(strcat(filename,timeStamp,'.csv'),'a');
 fprintf(fileID,format,codingProtocol,channelType,errorProbability,packetCount,packetSize,errorCounter,transmissionLengthRate);
@@ -290,9 +294,11 @@ else
     histfit(data, 200);
     h = fitdist(data.', 'Normal');
     disp(h);
-    resultFormat ='\n %f, %f';
+    qts = quantile(data, [0 0.25 0.5 0.75 1]);
+    resultFormat ='\n %f, %f, %f, %f, %f, %f';
     fileID = fopen(file,'a');
-    fprintf(fileID,resultFormat, h.mu, h.sigma);
+    fprintf(fileID,'\n mean, sigma, median, min, max, Q3-Q1');
+    fprintf(fileID,resultFormat, h.mu, h.sigma, qts(3), qts(1), qts(5), qts(4) - qts(2));
     fclose(fileID);
 end
 % --- Executes during object creation, after setting all properties.
