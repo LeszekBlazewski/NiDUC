@@ -163,7 +163,7 @@ end
 
 \subsubsection{Random error channel}
 
-Jako drugi model kanału telekomunikacyjnego, postanowiliśmy wykorzystać własną implementację. Kanał symuluje ciągłe lekkie zaszumienie łącza wprowadzając błędy z małym prawdopodobieństwem, natomiast w losowych momentach występuje skok prawdopodobieństwa i przekłamaniu ulega większa liczba bitów. Kanał może być odwzorowaniem, losowych skoków napięcia występujących w medium transmisyjnym.
+Jako drugi model kanału telekomunikacyjnego, postanowiliśmy wykorzystać własną implementację. Kanał symuluje ciągłe lekkie zaszumienie łącza wprowadzając błędy o małej amplitudzie, natomiast w losowych momentach występuje skok wartości o dużej amplitudzie. Kanał może być odwzorowaniem, losowych skoków napięcia występujących w medium transmisyjnym.
 
 Poniżej zamieszczono kod funkcji odpowiedzialnych za generowanie błędów oraz realizację całego kanału.
 
@@ -301,7 +301,7 @@ end
 
 \newpage
 
-Dekodowanie polega na pobieraniu danych w paczkach po 5 bitów z otrzymanej wiadomości, a następnie należy porównać znaleziony ciągu z ustalonymi ciągami do kodowania zera i jedynki oraz  zapisać odpowiednią wartość do wektora przechowującego zdekodowane dane. Jeśli wynik porównania będzie fałszywy wiemy, że dany bit został przekłamany i dokonać należy retransmisji.
+Dekodowanie polega na pobieraniu danych w paczkach po 5 bitów z otrzymanej wiadomości, a następnie należy porównać znaleziony ciąg z ustalonymi ciągami do kodowania zera i jedynki oraz  zapisać odpowiednią wartość do wektora przechowującego zdekodowane dane. Jeśli wynik porównania będzie fałszywy wiemy, że dany bit został przekłamany i dokonać należy retransmisji.
 
 \begin{minted}{Matlab}
 %{
@@ -343,7 +343,7 @@ Na koniec wiadomości zostaje dodany bit parzystości, obliczany jako suma logic
 
 \vspace{2mm}
 \noindent
-Poniżej zamieszczono funkcję odpowiedzialną, za wyznaczenie bitu parzystości dla danego wektora danych.
+Poniżej zamieszczono funkcję odpowiedzialną za wyznaczenie bitu parzystości dla danego wektora danych.
 
 \newpage
 
@@ -494,7 +494,7 @@ Number of additional bits for each packet     & \multicolumn{2}{c|}{16}        \
 \caption{Histogramy dla badanego algorytmu}
 \end{figure}
 
-Kod \textit{CRC}, jest algorytmem powszechnie wykorzystywanym w telekomunikacji ze względu na swoje właściwości korekcyjne. Ponieważ analizowaliśmy system \textit{ARQ}, postanowiliśmy jedynie zbadać możliwości wykrywania błędu przez \textit{CRC}. Dla przeprowadzonych symulacji algorytm, sprawdza się idealnie, ponieważ nie dopuszcza możliwości przesłania błędnego pakietu, co pokazane zostało na histogramach. Wadą kodu jest narzut w postaci 16 bitów, które musimy dodać do każdego przesyłanego pakietu. Brak błędów w przesyłanym sygnale opłacony jest również kosztem dużej liczby retransmisji pakietów w kanałach w których występuję większe zaszumienie tak jak w kanale \textit{REC}. Kod \textit{CRC} jest kodem optymalnym dla kanałów w których występuje małe prawdopodobieństwo błędu oraz kluczowa jest poprawność przesyłanej wiadomości, ponieważ dla kanałów o dużym zaszumieniu przesłanie wiadomości jest prawie niemożliwe ze względu na liczbę występujących retransmisji. Przykładowo dla prawdopodobieństwa błędu wynoszącego $0,05$ przy długości pakietów równej $32$ bity, średnia liczba retransmisji wynosiła już $12$, co oznaczało próbę przesłania pakietu minimum dwanaście razy, co powoduje znaczne zwiększenie czasu przesyłu.
+Kod \textit{CRC}, jest algorytmem powszechnie wykorzystywanym w telekomunikacji ze względu na swoje właściwości korekcyjne. Ponieważ analizowaliśmy system \textit{ARQ}, postanowiliśmy jedynie zbadać możliwości wykrywania błędu przez \textit{CRC}. Dla przeprowadzonych symulacji algorytm, sprawdza się idealnie, ponieważ nie dopuszcza możliwości przesłania błędnego pakietu, co pokazane zostało na histogramach. Wadą kodu jest narzut w postaci 16 bitów, które musimy dodać do każdego przesyłanego pakietu. Brak błędów w przesyłanym sygnale opłacony jest również kosztem dużej liczby retransmisji pakietów w kanałach w których występuje większe zaszumienie tak jak w kanale \textit{REC}. Kod \textit{CRC} jest kodem optymalnym dla kanałów w których występuje małe prawdopodobieństwo błędu oraz kluczowa jest poprawność przesyłanej wiadomości, ponieważ dla kanałów o dużym zaszumieniu przesłanie wiadomości jest prawie niemożliwe ze względu na liczbę występujących retransmisji. Przykładowo dla prawdopodobieństwa błędu wynoszącego $0,05$ przy długości pakietów równej $32$ bity, średnia liczba retransmisji wynosiła już $12$, co oznaczało próbę przesłania pakietu minimum dwanaście razy, co powoduje znaczne zwiększenie czasu przesyłu.
 
 \subsection{Two-out-of-five code}
 
